@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/belajar_kafka
+    username: postgres
+    password: yourpassword
+  application:
+    name: consumer_2
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+      properties.spring.json:
+        use.type.headers: false
+        value.default.type: com.kafka.consumer_2.event.OrderEvent
+server:
+  port: 8082

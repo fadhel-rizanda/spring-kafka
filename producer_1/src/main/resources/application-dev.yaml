@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: producer_1
+    version: 1.0.0
+    description: kafka project producer-1
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/shop
+    username: shop
+    password: shop
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      properties:
+        spring:
+          # notes secara default dia headers bakal diisi metadata yang nantinya digunakna untk autokonfiguarsi, ini bisa menyebabkan error ex: missmatch class-name, configuration, bahkan teknologi
+          json.add.type.headers: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3d
+server:
+  port: 8080
