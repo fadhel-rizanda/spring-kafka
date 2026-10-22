@@ -5,11 +5,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
 @ControllerAdvice
 public class GlobalException {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
+        return ResponseEntity.status(404).body(
+                new ErrorResponse(
+                        "NOT_FOUND",
+                        ex.getMessage(),
+                        java.time.LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
         return ResponseEntity.status(404).body(
                 new ErrorResponse(
                         "NOT_FOUND",

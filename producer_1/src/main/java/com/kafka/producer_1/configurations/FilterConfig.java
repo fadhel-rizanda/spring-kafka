@@ -1,5 +1,6 @@
 package com.kafka.producer_1.configurations;
 
+import com.kafka.producer_1.auth.JWTFilter;
 import com.kafka.producer_1.filters.TestFilterBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -18,4 +19,12 @@ public class FilterConfig {
         bean.setOrder(1); // Set the order of the filter
         return bean;
     }
+
+    @Bean
+    public FilterRegistrationBean<JWTFilter> jwtFilterRegistration(JWTFilter filter) {
+        FilterRegistrationBean<JWTFilter> registration = new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false); // Only run inside Spring Security filter chain
+        return registration;
+    }
 }
+

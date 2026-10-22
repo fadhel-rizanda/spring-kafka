@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 public class User extends BaseEntity {
     private String username;
+    @Column(unique = true)
     private String email;
     private String password;
 

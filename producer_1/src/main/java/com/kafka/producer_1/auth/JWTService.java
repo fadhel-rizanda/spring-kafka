@@ -1,9 +1,14 @@
 package com.kafka.producer_1.auth;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -12,6 +17,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Service
+@Slf4j
 public class JWTService {
     @Value("${jwt.secret}")
     private String secretKey;
@@ -66,7 +72,12 @@ public class JWTService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && isTokenValid(token);
+        try {
+            final String username = extractUsername(token);
+            return (username.equals(userDetails.getUsername())) && isTokenValid(token);
+        } catch (Exception e) {
+            log.warn("Failed to validate token against userDetails: {}", e.getMessage());
+            return false;
+        }
     }
 }

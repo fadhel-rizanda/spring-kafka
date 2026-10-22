@@ -6,7 +6,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -33,3 +33,7 @@ spring:
       time-to-live: 3d
 server:
   port: 8080
+jwt:
+  secret: u4Tw3kgjosN9qJid79No4vgPRU7XpWQr92dPsEU2xhl4hsIiMVJW64IIMW7
+  expiration: 86400000
+

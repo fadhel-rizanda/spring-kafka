@@ -30,8 +30,8 @@ public class AuthConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/public/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/public/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/user/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(appUserDetailService)
