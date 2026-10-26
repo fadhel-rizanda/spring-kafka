@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity // level config
-@EnableMethodSecurity(prePostEnabled = true) // level method @PreAuthorize
+@EnableMethodSecurity // level method @PreAuthorize
 @Configuration
 @RequiredArgsConstructor
 public class AuthConfig {
@@ -26,13 +26,14 @@ public class AuthConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
-    public SecurityFilterChain securityWebFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityWebFilterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/public/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/user/**").permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/public/**").hasAnyRole("ADMIN", "USER")
+//                        .requestMatchers("/user/**").permitAll()
+//                                .requestMatchers("/ws/**", "/socket.io/**").permitAll()
+                                .anyRequest().permitAll()
                 )
                 .userDetailsService(appUserDetailService)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -46,7 +47,7 @@ public class AuthConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManage(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManage(AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
     }
 

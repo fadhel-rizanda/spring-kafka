@@ -19,6 +19,8 @@ public interface RegisterMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "chatRooms", ignore = true)
+    @Mapping(target = "messages", ignore = true)
     User toEntity(RegisterRequest request);
 
     @Mapping(target = "token", expression = "java(token)")

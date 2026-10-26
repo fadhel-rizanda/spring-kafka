@@ -23,4 +23,10 @@ public class User extends BaseEntity {
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<ChatRoom> chatRooms;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    private Set<Message> messages;
 }
